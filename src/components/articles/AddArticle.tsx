@@ -4,15 +4,17 @@ import ArticleInputForm from './ArticleInputForm';
 import { IAddArticle } from '../../types/types';
 import { ApiRequest } from '../../utils/Api';
 import Title from '../Title';
+import { useNavigate } from 'react-router-dom';
 
 const AddArticle = () => {
+  const navigate = useNavigate();
   const addNewArticle = async (data: IAddArticle) => {
     return await ApiRequest(
       'POST',
       'https://jsonplaceholder.typicode.com/posts',
       data
-    ).then((res) => {
-      console.log('ADD article', res.data);
+    ).then(() => {
+      navigate('/');
     });
   };
 
@@ -23,7 +25,6 @@ const AddArticle = () => {
     content: Yup.string().required('Required'),
     publishedDate: Yup.string().required('Required'),
   });
-
   const formik = useFormik<IAddArticle>({
     initialValues: {
       title: '',
@@ -37,8 +38,25 @@ const AddArticle = () => {
     },
   });
 
+  const disableSubmission = () => {
+    if (
+      formik.isSubmitting ||
+      !formik.values.title ||
+      !formik.values.author ||
+      !formik.values.content ||
+      !formik.values.publishedDate
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  console.log(formik.values);
+
   return (
     <div>
+      {/* Main title */}
       <Title title='New Article' />
 
       <form onSubmit={formik.handleSubmit}>
@@ -70,7 +88,7 @@ const AddArticle = () => {
         </div>
         <div className='flex items-center justify-center'>
           <button
-            disabled={formik.isSubmitting}
+            disabled={!disableSubmission}
             className='m-auto w-1/2 mt-5 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
             type='submit'>
             {formik.isSubmitting ? 'Submitting...' : 'Submit'}
