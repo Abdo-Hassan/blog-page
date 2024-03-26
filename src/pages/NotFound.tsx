@@ -10,7 +10,7 @@ const NotFound = () => {
       <Link
         to='/'
         className='bg-slate-500 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
-        Go to articles page
+        Return to articles page
       </Link>
     </div>
   );

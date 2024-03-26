@@ -1,16 +1,15 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { Fragment } from 'react/jsx-runtime';
 import Loading from '../components/Loading';
 import ArticleCard from '../components/articles/ArticleCard';
 import { IBlog } from '../types/types';
-import { Fragment } from 'react/jsx-runtime';
+import Search from '../components/Search';
 
 const Home = () => {
   // Fetch all articles with pagination default : 10 articles
   const fetchArticles = async ({ pageParam = 10 }: { pageParam?: number }) => {
     const response = await fetch(
-      `https://jsonplaceholder.typicode.com/posts?_start=0&_limit=${
-        10 * pageParam
-      }`
+      `https://jsonplaceholder.typicode.com/posts?_start=${pageParam}&_limit=${10}`
     );
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -40,12 +39,15 @@ const Home = () => {
 
   return (
     <div>
-      <h1 className='text-center text-4xl text-emerald-700 py-5 font-semibold'>
-        Welcome to Article list page
+      <h1 className='text-center text-4xl text-emerald-700 py-6 font-semibold'>
+        Blog Page
       </h1>
 
+      {/* search input */}
+      <Search />
+
       {/* Articles list cards */}
-      <div className='grid grid-cols-3 gap-4 p-8'>
+      <div className='grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-4 px-6 py-3'>
         {articles &&
           articles?.pages?.length > 0 &&
           articles?.pages.map((singleArticle, i) => (
@@ -64,7 +66,7 @@ const Home = () => {
           onClick={() => fetchNextPage()}
           disabled={!hasNextPage || isFetchingNextPage}>
           {isFetchingNextPage
-            ? 'Loading more...'
+            ? 'Loading 10 more...'
             : hasNextPage
             ? 'Load More'
             : 'Nothing more to load'}
