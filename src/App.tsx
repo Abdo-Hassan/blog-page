@@ -1,9 +1,10 @@
 import './App.css';
+import ArticleCard from './components/articles/ArticleCard';
 
 function App() {
   return (
     <div>
-      <h1 className='text-5xl'>test</h1>
+      <ArticleCard />
     </div>
   );
 }
