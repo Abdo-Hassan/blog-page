@@ -4,7 +4,7 @@ import { IBlog } from '../../types/types';
 const ArticleCard = ({ article }: { article: IBlog }) => {
   return (
     <div>
-      <div className=' bg-white shadow-lg rounded-md overflow-hidden h-full'>
+      <div className=' bg-white border border-gray-300 rounded-md overflow-hidden h-full'>
         <div className='p-4'>
           <h2 className='text-xl font-bold text-gray-800 mb-2'>
             {article.title}

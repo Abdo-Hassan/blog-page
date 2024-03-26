@@ -4,18 +4,32 @@ import Loading from '../components/Loading';
 import ArticleCard from '../components/articles/ArticleCard';
 import { IBlog } from '../types/types';
 import Search from '../components/Search';
+import { useDispatch } from 'react-redux';
+import { fetchedArticles } from '../redux/reducers/ArticleSlice';
+import { ApiRequest } from '../utils/Api';
+import Title from '../components/Title';
 
 const Home = () => {
+  const dispatch = useDispatch();
   // Fetch all articles with pagination default : 10 articles
   const fetchArticles = async ({ pageParam = 10 }: { pageParam?: number }) => {
-    const response = await fetch(
+    const response = await ApiRequest(
+      'GET',
       `https://jsonplaceholder.typicode.com/posts?_start=${pageParam}&_limit=${10}`
     );
-    if (!response.ok) {
+
+    const data = response.data;
+    if (response.status !== 200) {
       throw new Error('Network response was not ok');
+    } else {
+      // setting response into redux reducer
+      dispatch(fetchedArticles(await data));
     }
-    return response.json();
+
+    return data;
   };
+
+  // const { articles } = useSelector((state: RootState) => state.articles);
 
   // handle paginated articles with page number
   const {
@@ -26,6 +40,7 @@ const Home = () => {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: ['fetchArticles'],
+    refetchOnWindowFocus: false,
     queryFn: ({ pageParam = 1 }) => fetchArticles({ pageParam }),
     initialPageParam: 1,
     getNextPageParam: (lastPage: IBlog[]) => {
@@ -39,9 +54,8 @@ const Home = () => {
 
   return (
     <div>
-      <h1 className='text-center text-4xl text-emerald-700 py-6 font-semibold'>
-        Blog Page
-      </h1>
+      {/* Main title */}
+      <Title title='Blog Page' />
 
       {/* search input */}
       <Search />

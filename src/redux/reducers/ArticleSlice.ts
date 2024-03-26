@@ -1,20 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IBlog } from '../../types/types';
 
-interface CounterState {
+interface ArticlesState {
   articles: IBlog[];
 }
 
-const initialState: CounterState = {
+const initialState: ArticlesState = {
   articles: [],
 };
 
 export const articleSlice = createSlice({
   name: 'articles',
   initialState,
-  reducers: {},
+  reducers: {
+    fetchedArticles: (state, action: PayloadAction<any[]>) => {
+      state.articles = action.payload;
+    },
+  },
 });
 
-// export const { increment, decrement, incrementByAmount } = articleSlice.actions;
+export const { fetchedArticles } = articleSlice.actions;
 
 export default articleSlice.reducer;

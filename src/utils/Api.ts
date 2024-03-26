@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const ApiRequest = async (method: string, url: string, data = null) => {
+export const ApiRequest = async (method: string, url: string, data?: any) => {
   const axiosInstance = axios.create({
     baseURL: url,
     headers: {
@@ -17,7 +17,7 @@ export const ApiRequest = async (method: string, url: string, data = null) => {
 
     // Handle successful responses (2xx)
     if (response.status >= 200 && response.status < 300) {
-      return response.data;
+      return response;
     }
 
     // Handle specific error statuses (optional)

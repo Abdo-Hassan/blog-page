@@ -4,3 +4,10 @@ export interface IBlog {
   title: string;
   body: string;
 }
+
+export interface IAddArticle {
+  title: string;
+  author: string;
+  content: string;
+  publishedDate: string;
+}
