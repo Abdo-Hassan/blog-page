@@ -3,7 +3,7 @@ import './App.css';
 import Header from './components/Header';
 import Home from './pages/Home';
 import AddArticle from './components/articles/AddArticle';
-import NotFound from './components/NotFound';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -11,8 +11,11 @@ function App() {
       <Router>
         <Header />
         <Routes>
+          {/* Home page */}
           <Route path='/' element={<Home />} />
+          {/* Add article page */}
           <Route path='/add-article' element={<AddArticle />} />
+          {/* Nor found page */}
           <Route path='*' element={<NotFound />} />
         </Routes>
       </Router>
