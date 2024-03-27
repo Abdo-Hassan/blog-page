@@ -14,14 +14,14 @@ const ArticleCard = ({ article }: { article: IBlog }) => {
 
   const deleteArticle = async () => {
     try {
-      const res = (await deleteArticleAPI(article?.id!)).data;
-      if (res) {
+      const res = await deleteArticleAPI(article?.id!);
+      if (res.status === 200) {
         setIsOpen(false);
         dispatch(deleteArticles(article.id));
       }
-      return res;
-    } catch (error) {
-      console.log(error);
+      return res?.data;
+    } catch (err) {
+      throw new Error('Error deleting article');
     }
   };
 
@@ -43,7 +43,7 @@ const ArticleCard = ({ article }: { article: IBlog }) => {
           <h2 className='text-md font-bold text-gray-800 mb-2 w-11/12'>
             {article.title}
           </h2>
-          <div className='flex'>
+          <div className='flex items-start'>
             {/* Delete article */}
             <div
               onClick={() => setIsOpen(true)}

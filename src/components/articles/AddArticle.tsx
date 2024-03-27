@@ -42,7 +42,7 @@ const AddArticle = () => {
       }
       return articleData;
     } catch (err) {
-      console.log(err);
+      throw new Error('Error updating article');
     }
   };
 

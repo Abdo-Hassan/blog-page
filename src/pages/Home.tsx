@@ -19,9 +19,7 @@ const Home = () => {
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
 
   // list of stored articles
-  const { articles, searchedArticles } = useSelector(
-    (state: RootState) => state.articles
-  );
+  const { articles } = useSelector((state: RootState) => state.articles);
 
   //  reverse the articles it to show the updated articles
   const arrangedArticles = [...articles].reverse();
@@ -42,7 +40,7 @@ const Home = () => {
       dispatch(fetchedArticles(await response));
       return response;
     } catch (error) {
-      console.log('error:', error);
+      throw new Error('Error fetching articles');
     }
   };
 
@@ -60,7 +58,7 @@ const Home = () => {
   }
 
   return (
-    <div>
+    <div className='relative'>
       {/* Articles list cards */}
       {allArticles && allArticles?.length > 0 ? (
         <>
