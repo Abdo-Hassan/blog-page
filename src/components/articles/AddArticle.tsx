@@ -21,12 +21,11 @@ const AddArticle = () => {
   const addArticle = async (data: IBlog) => {
     try {
       const res = await addArticleAPI(data);
-      const articleData = res.data;
-      dispatch(postArticles(articleData));
+      dispatch(postArticles(data));
       if (res.status === 201) {
         navigate('/');
       }
-      return articleData;
+      return data;
     } catch (err) {
       throw new Error('Error with creating article');
     }
@@ -57,7 +56,7 @@ const AddArticle = () => {
   // initial values of the inputs
   const formik = useFormik<IBlog>({
     initialValues: {
-      id: edit ? state?.id : 0,
+      id: edit ? state?.id : Math.ceil(Math.random() * 10000),
       title: edit ? state?.title : '',
       author: edit ? state?.author : '',
       body: edit ? state?.body : '',

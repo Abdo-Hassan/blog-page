@@ -1,8 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../components/Shared/Loading';
-import Search from '../components/Shared/Search';
-import Title from '../components/Shared/Title';
 import ArticleCard from '../components/articles/ArticleCard';
 import { fetchedArticles } from '../redux/reducers/ArticleSlice';
 import { RootState } from '../store';
@@ -14,8 +12,27 @@ import NotFoundResult from '../components/Shared/NotFoundResult';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const [pageNumber, setPageNumber] = useState(0);
-  const { articles } = useSelector((state: RootState) => state.articles);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage] = useState(9);
+
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+
+  // list of stored articles
+  const { articles, searchedArticles } = useSelector(
+    (state: RootState) => state.articles
+  );
+
+  //  reverse the articles it to show the updated articles
+  const arrangedArticles = [...articles].reverse();
+
+  // Records to be displayed on the current page
+  const allArticles = arrangedArticles.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord
+  );
+
+  const nPages = Math.ceil(arrangedArticles.length / recordsPerPage);
 
   // Fetch all articles and dispatched to the store
   const fetchArticles = async () => {
@@ -28,9 +45,6 @@ const Home = () => {
       console.log('error:', error);
     }
   };
-
-  // show only first 9 articles and reverse it to show the updated articles
-  const allArticles = [...articles].reverse()?.slice(pageNumber, 9);
 
   // fetch all articles list from FAKE API
   const { data, isLoading } = useQuery({
@@ -56,9 +70,9 @@ const Home = () => {
             ))}
           </div>
           <Pagination
-            currentPage={pageNumber}
-            totalPages={10}
-            onPageChange={(pageNumber) => setPageNumber(pageNumber + 1)}
+            nPages={nPages}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
           />
         </>
       ) : (
