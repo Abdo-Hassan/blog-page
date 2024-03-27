@@ -45,7 +45,7 @@ const Home = () => {
   };
 
   // fetch all articles list from FAKE API
-  const { data, isLoading } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ['articles'],
     queryFn: fetchArticles,
     // to prevent fetching articles more than once
