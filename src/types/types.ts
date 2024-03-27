@@ -6,8 +6,9 @@ export interface IBlog {
 }
 
 export interface IAddArticle {
+  edit?: boolean;
+  id?: number;
   title: string;
   author: string;
   content: string;
-  publishedDate: string;
 }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IAddArticle, IBlog } from '../types/types';
+import { IAddArticle } from '../types/types';
 
 const endPoint = 'https://jsonplaceholder.typicode.com';
 
@@ -15,7 +15,7 @@ export const postAPI = async (payload: IAddArticle) => {
   return response;
 };
 
-export const putAPI = async (payload: IBlog) => {
+export const putAPI = async (payload: IAddArticle) => {
   const url = `${endPoint}/posts/${payload.id}`;
   const response = await axios.put(url, payload);
   return response;
