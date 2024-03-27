@@ -1,22 +1,22 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { deleteArticles } from '../../redux/reducers/ArticleSlice';
 import { IBlog } from '../../types/types';
 import { deletePostAPI } from '../../utils/Api';
-import { useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
 import ModalAlert from '../ModalAlert';
 
 const ArticleCard = ({ article }: { article: IBlog }) => {
   const [open, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  // Get QueryClient from the context
-  const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
   const deleteArticle = async () => {
     try {
-      const res = (await deletePostAPI(article?.id)).data;
+      const res = (await deletePostAPI(article?.id!)).data;
       if (res) {
-        queryClient.invalidateQueries({ queryKey: ['fetchArticles'] });
         setIsOpen(false);
+        dispatch(deleteArticles(article.id));
       }
       return res;
     } catch (error) {
@@ -31,7 +31,7 @@ const ArticleCard = ({ article }: { article: IBlog }) => {
         id: article.id,
         title: article.title,
         author: article.title,
-        content: article.body,
+        body: article.body,
       },
     });
   };
@@ -82,12 +82,19 @@ const ArticleCard = ({ article }: { article: IBlog }) => {
           </div>
         </div>
 
-        <p className='text-gray-600 mb-2 font-semibold'>
-          Author: {article.title}
-        </p>
+        {/* Author */}
+        {article?.author && (
+          <p className='text-gray-600 mb-2 font-semibold'>
+            Author: {article.author}
+          </p>
+        )}
+
+        {/* Publication date */}
         <p className='text-gray-600 mb-2 font-semibold'>
           Publication Date: {new Date().toLocaleDateString()}
         </p>
+
+        {/* article content */}
         <p className='text-gray-800'>
           {article.body.length > 20 ? (
             <button className='text-blue-500'>Read more</button>

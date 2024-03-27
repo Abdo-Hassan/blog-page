@@ -1,14 +1,15 @@
 import { ChangeEvent, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { useDispatch } from 'react-redux';
+import { searchArticles } from '../redux/reducers/ArticleSlice';
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState('');
-  // getting stored data from global redux reducer
-  const { articles } = useSelector((state: RootState) => state.articles);
+  const dispatch = useDispatch();
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
+    const value = e.target.value;
+    setSearchValue(value);
+    dispatch(searchArticles(value));
   };
 
   return (

@@ -1,6 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Header = () => {
+  let location = useLocation();
+  const pathName = location.pathname;
   return (
     <div className='sticky top-0 z-10'>
       <header className='bg-slate-800 text-white  py-4'>
@@ -10,17 +12,19 @@ const Header = () => {
           </Link>
 
           {/* add article button */}
-          <nav>
-            <ul className='flex space-x-4'>
-              <li>
-                <Link
-                  to='/add-article'
-                  className='hover:bg-green-700 rounded-lg bg-green-600 px-3 py-2 text-white'>
-                  Add Article
-                </Link>
-              </li>
-            </ul>
-          </nav>
+          {pathName !== '/add-article' && (
+            <nav>
+              <ul className='flex space-x-4'>
+                <li>
+                  <Link
+                    to='/add-article'
+                    className='hover:bg-green-700 rounded-lg bg-green-600 px-3 py-2 text-white'>
+                    Add Article
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          )}
         </div>
       </header>
     </div>

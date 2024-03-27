@@ -1,21 +1,21 @@
 import axios from 'axios';
-import { IAddArticle } from '../types/types';
+import { IBlog } from '../types/types';
 
 const endPoint = 'https://jsonplaceholder.typicode.com';
 
-export const getArticlesAPI = async (pageParam: number) => {
-  const url = `${endPoint}/posts?_start=${pageParam}&_limit=${10}`;
+export const getArticlesAPI = async () => {
+  const url = `${endPoint}/posts`;
   const response = await axios.get(url);
   return response;
 };
 
-export const postAPI = async (payload: IAddArticle) => {
+export const postAPI = async (payload: IBlog) => {
   const url = `${endPoint}/posts`;
   const response = await axios.post(url, payload);
   return response;
 };
 
-export const putAPI = async (payload: IAddArticle) => {
+export const putAPI = async (payload: IBlog) => {
   const url = `${endPoint}/posts/${payload.id}`;
   const response = await axios.put(url, payload);
   return response;
