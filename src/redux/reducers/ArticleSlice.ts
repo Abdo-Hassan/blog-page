@@ -17,13 +17,24 @@ export const articleSlice = createSlice({
   reducers: {
     fetchedArticles: (state, action: PayloadAction<IBlog[]>) => {
       state.articles = action.payload;
+      // for searching articles
       state.searchedArticles = action.payload;
     },
     updateArticles: (state, action: PayloadAction<IBlog>) => {
-      // state.articles = action.payload;
+      const findArticle = state.articles.findIndex(
+        (article) => article.id === action.payload.id
+      );
+      // for searching articles
+      const findArticleClone = state.searchedArticles.findIndex(
+        (article) => article.id === action.payload.id
+      );
+      // for searching articles
+      state.articles[findArticle] = action.payload;
+      state.searchedArticles[findArticleClone] = action.payload;
     },
     postArticles: (state, action: PayloadAction<IBlog>) => {
       state.articles = [...state.articles, action.payload];
+      // for searching articles
       state.searchedArticles = [...state.searchedArticles, action.payload];
     },
     deleteArticles: (state, action) => {
@@ -31,10 +42,12 @@ export const articleSlice = createSlice({
       const deletedArticle = state.articles?.filter(
         (ar) => ar.id !== articleId
       );
+      // for searching articles
       const deletedArticleClone = state.searchedArticles?.filter(
         (ar) => ar.id !== articleId
       );
       state.articles = deletedArticle;
+      // for searching articles
       state.searchedArticles = deletedArticleClone;
     },
     searchArticles: (state, action: PayloadAction<string>) => {
