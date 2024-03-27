@@ -9,6 +9,7 @@ const Header = () => {
             Home
           </Link>
 
+          {/* add article button */}
           <nav>
             <ul className='flex space-x-4'>
               <li>

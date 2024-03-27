@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Home from './pages/Home';
 import AddArticle from './components/articles/AddArticle';
 import NotFound from './pages/NotFound';
+import { useEffect } from 'react';
 
 function App() {
   return (
