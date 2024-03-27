@@ -6,27 +6,21 @@ import { IBlog } from '../types/types';
 import Search from '../components/Search';
 import { useDispatch } from 'react-redux';
 import { fetchedArticles } from '../redux/reducers/ArticleSlice';
-import { ApiRequest } from '../utils/Api';
 import Title from '../components/Title';
+import { getArticlesAPI } from '../utils/Api';
 
 const Home = () => {
   const dispatch = useDispatch();
   // Fetch all articles with pagination default : 10 articles
   const fetchArticles = async ({ pageParam = 10 }: { pageParam?: number }) => {
-    const response = await ApiRequest(
-      'GET',
-      `https://jsonplaceholder.typicode.com/posts?_start=${pageParam}&_limit=${10}`
-    );
-
-    const data = response.data;
-    if (response.status !== 200) {
-      throw new Error('Network response was not ok');
-    } else {
+    try {
+      const response = await (await getArticlesAPI(pageParam)).data;
       // setting response into redux reducer
-      dispatch(fetchedArticles(await data));
+      dispatch(fetchedArticles(await response));
+      return response;
+    } catch (error) {
+      console.log('error:', error);
     }
-
-    return data;
   };
 
   // const { articles } = useSelector((state: RootState) => state.articles);

@@ -2,20 +2,25 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import ArticleInputForm from './ArticleInputForm';
 import { IAddArticle } from '../../types/types';
-import { ApiRequest } from '../../utils/Api';
+// import { ApiRequest } from '../../utils/Api';
 import Title from '../Title';
 import { useNavigate } from 'react-router-dom';
+import { postAPI } from '../../utils/Api';
 
 const AddArticle = () => {
   const navigate = useNavigate();
+  // add new article
   const addNewArticle = async (data: IAddArticle) => {
-    return await ApiRequest(
-      'POST',
-      'https://jsonplaceholder.typicode.com/posts',
-      data
-    ).then(() => {
-      navigate('/');
-    });
+    try {
+      const res = await postAPI(data);
+      const articleData = res.data;
+      if (res.status === 201) {
+        navigate('/');
+      }
+      return articleData;
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // POST: create a new article
@@ -51,8 +56,6 @@ const AddArticle = () => {
       return false;
     }
   };
-
-  console.log(formik.values);
 
   return (
     <div>
