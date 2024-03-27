@@ -10,6 +10,7 @@ import { IBlog } from '../types/types';
 import { getArticlesAPI } from '../utils/Api';
 import Pagination from '../components/Shared/Pagination';
 import { useState } from 'react';
+import NotFoundResult from '../components/Shared/NotFoundResult';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -28,11 +29,15 @@ const Home = () => {
     }
   };
 
+  // show only first 9 articles and reverse it to show the updated articles
+  const allArticles = [...articles].reverse()?.slice(pageNumber, 9);
+
   // fetch all articles list from FAKE API
   const { data, isLoading } = useQuery({
     queryKey: ['articles'],
     queryFn: fetchArticles,
-    enabled: articles && articles?.length === 0,
+    // to prevent fetching articles more than once
+    staleTime: Infinity,
     refetchOnWindowFocus: false,
   });
 
@@ -40,24 +45,25 @@ const Home = () => {
     return <Loading />;
   }
 
-  const allArticles = [...articles].reverse()?.slice(pageNumber, 9);
-
   return (
     <div>
       {/* Articles list cards */}
-      <div className='grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-2 px-6 pt-10 pb-6'>
-        {allArticles &&
-          allArticles?.length > 0 &&
-          allArticles?.map((article: IBlog) => (
-            <ArticleCard key={article.id} article={article} />
-          ))}
-      </div>
-
-      <Pagination
-        currentPage={pageNumber}
-        totalPages={10}
-        onPageChange={(pageNumber) => setPageNumber(pageNumber + 1)}
-      />
+      {allArticles && allArticles?.length > 0 ? (
+        <>
+          <div className='grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-2 px-6 pt-10 pb-6'>
+            {allArticles?.map((article: IBlog) => (
+              <ArticleCard key={article.id} article={article} />
+            ))}
+          </div>
+          <Pagination
+            currentPage={pageNumber}
+            totalPages={10}
+            onPageChange={(pageNumber) => setPageNumber(pageNumber + 1)}
+          />
+        </>
+      ) : (
+        <NotFoundResult />
+      )}
     </div>
   );
 };
