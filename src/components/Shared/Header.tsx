@@ -8,7 +8,7 @@ const Header = () => {
       <header className='bg-slate-800 text-white  py-4'>
         <div className='container mx-auto flex justify-between items-center px-4'>
           <Link to='/' className='text-2xl font-semibold'>
-            Home
+            Blog of articles
           </Link>
 
           {/* add article button */}

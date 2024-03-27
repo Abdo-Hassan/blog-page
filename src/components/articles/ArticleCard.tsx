@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { deleteArticles } from '../../redux/reducers/ArticleSlice';
 import { IBlog } from '../../types/types';
-import { deletePostAPI } from '../../utils/Api';
-import ModalAlert from '../ModalAlert';
+import { deleteArticleAPI } from '../../utils/Api';
+import ModalAlert from '../Shared/ModalAlert';
 
 const ArticleCard = ({ article }: { article: IBlog }) => {
   const [open, setIsOpen] = useState(false);
@@ -13,7 +13,7 @@ const ArticleCard = ({ article }: { article: IBlog }) => {
 
   const deleteArticle = async () => {
     try {
-      const res = (await deletePostAPI(article?.id!)).data;
+      const res = (await deleteArticleAPI(article?.id!)).data;
       if (res) {
         setIsOpen(false);
         dispatch(deleteArticles(article.id));

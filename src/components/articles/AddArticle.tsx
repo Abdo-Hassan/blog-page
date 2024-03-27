@@ -4,8 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { postArticles } from '../../redux/reducers/ArticleSlice';
 import { IBlog } from '../../types/types';
-import { postAPI, putAPI } from '../../utils/Api';
-import Title from '../Title';
+import { addArticleAPI, updateArticleAPI } from '../../utils/Api';
+import Title from '../Shared/Title';
 import ArticleInputForm from './ArticleInputForm';
 
 const AddArticle = () => {
@@ -17,7 +17,7 @@ const AddArticle = () => {
   // add new article
   const addArticle = async (data: IBlog) => {
     try {
-      const res = await postAPI(data);
+      const res = await addArticleAPI(data);
       const articleData = res.data;
       dispatch(postArticles(articleData));
       if (res.status === 201) {
@@ -25,14 +25,14 @@ const AddArticle = () => {
       }
       return articleData;
     } catch (err) {
-      console.log(err);
+      throw new Error('Error with creating article');
     }
   };
 
   // edit new article
   const editArticle = async (data: IBlog) => {
     try {
-      const res = await putAPI(data);
+      const res = await updateArticleAPI(data);
       const articleData = res.data;
       if (res.status === 200) {
         navigate('/');
@@ -77,12 +77,15 @@ const AddArticle = () => {
             inputName='title'
             value={formik.values.title}
           />
-          <ArticleInputForm
-            formik={formik}
-            label='Author'
-            inputName='author'
-            value={formik.values.author}
-          />
+
+          {!edit && (
+            <ArticleInputForm
+              formik={formik}
+              label='Author'
+              inputName='author'
+              value={formik.values.author}
+            />
+          )}
 
           <ArticleInputForm
             formik={formik}

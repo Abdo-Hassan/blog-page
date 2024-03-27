@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { searchArticles } from '../redux/reducers/ArticleSlice';
+import { searchArticles } from '../../redux/reducers/ArticleSlice';
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -13,7 +13,7 @@ const Search = () => {
   };
 
   return (
-    <form className='max-w-md mx-auto'>
+    <form className='max-w-md mx-auto mt-6'>
       <label
         htmlFor='default-search'
         className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'>

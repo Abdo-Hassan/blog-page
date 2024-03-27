@@ -1,16 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import { useDispatch, useSelector } from 'react-redux';
-import Loading from '../components/Loading';
-import Search from '../components/Search';
-import Title from '../components/Title';
+import Loading from '../components/Shared/Loading';
+import Search from '../components/Shared/Search';
+import Title from '../components/Shared/Title';
 import ArticleCard from '../components/articles/ArticleCard';
 import { fetchedArticles } from '../redux/reducers/ArticleSlice';
 import { RootState } from '../store';
 import { IBlog } from '../types/types';
 import { getArticlesAPI } from '../utils/Api';
+import Pagination from '../components/Shared/Pagination';
+import { useState } from 'react';
 
 const Home = () => {
   const dispatch = useDispatch();
+  const [pageNumber, setPageNumber] = useState(0);
   const { articles } = useSelector((state: RootState) => state.articles);
 
   // Fetch all articles and dispatched to the store
@@ -37,13 +40,10 @@ const Home = () => {
     return <Loading />;
   }
 
-  const allArticles = [...articles].reverse();
+  const allArticles = [...articles].reverse()?.slice(pageNumber, 9);
 
   return (
     <div>
-      {/* Main title */}
-      <Title title='Blog Page' />
-
       {/* search input */}
       <Search />
 
@@ -55,6 +55,12 @@ const Home = () => {
             <ArticleCard key={article.id} article={article} />
           ))}
       </div>
+
+      <Pagination
+        currentPage={pageNumber}
+        totalPages={10}
+        onPageChange={(pageNumber) => setPageNumber(pageNumber + 1)}
+      />
     </div>
   );
 };

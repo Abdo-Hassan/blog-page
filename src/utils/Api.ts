@@ -9,19 +9,19 @@ export const getArticlesAPI = async () => {
   return response;
 };
 
-export const postAPI = async (payload: IBlog) => {
+export const addArticleAPI = async (payload: IBlog) => {
   const url = `${endPoint}/posts`;
   const response = await axios.post(url, payload);
   return response;
 };
 
-export const putAPI = async (payload: IBlog) => {
+export const updateArticleAPI = async (payload: IBlog) => {
   const url = `${endPoint}/posts/${payload.id}`;
   const response = await axios.put(url, payload);
   return response;
 };
 
-export const deletePostAPI = async (id: number) => {
+export const deleteArticleAPI = async (id: number) => {
   const url = `${endPoint}/posts/${id}`;
   const response = await axios.delete(url);
   return response;
