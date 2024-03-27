@@ -16,8 +16,8 @@ export const articleSlice = createSlice({
     fetchedArticles: (state, action: PayloadAction<IBlog[]>) => {
       state.articles = action.payload;
     },
-    updateArticles: (state, action: PayloadAction<IBlog[]>) => {
-      state.articles = action.payload;
+    updateArticles: (state, action: PayloadAction<IBlog>) => {
+      // state.articles = action.payload;
     },
     postArticles: (state, action: PayloadAction<IBlog>) => {
       state.articles = [...state.articles, action.payload];
@@ -29,7 +29,7 @@ export const articleSlice = createSlice({
       );
       state.articles = deletedArticle;
     },
-    searchArticles: (state, action) => {
+    searchArticles: (state, action: PayloadAction<string>) => {
       const searchValue = action.payload;
       const filteredArticles = state.articles.filter((article) =>
         article?.title.toLowerCase().includes(searchValue?.toLowerCase())

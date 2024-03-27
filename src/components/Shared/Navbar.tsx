@@ -1,15 +1,22 @@
 import { Link, useLocation } from 'react-router-dom';
+import Search from './Search';
 
-const Header = () => {
+const Navbar = () => {
   let location = useLocation();
   const pathName = location.pathname;
   return (
     <div className='sticky top-0 z-10'>
-      <header className='bg-slate-800 text-white  py-4'>
+      <header
+        className={`bg-slate-800 text-white ${
+          pathName !== '/add-article' ? 'py-2.5' : 'py-4'
+        }`}>
         <div className='container mx-auto flex justify-between items-center px-4'>
           <Link to='/' className='text-2xl font-semibold'>
             Blog of articles
           </Link>
+
+          {/* search input */}
+          {pathName !== '/add-article' && <Search />}
 
           {/* add article button */}
           {pathName !== '/add-article' && (
@@ -31,4 +38,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Navbar;

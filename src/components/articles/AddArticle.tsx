@@ -2,7 +2,10 @@ import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { postArticles } from '../../redux/reducers/ArticleSlice';
+import {
+  postArticles,
+  updateArticles,
+} from '../../redux/reducers/ArticleSlice';
 import { IBlog } from '../../types/types';
 import { addArticleAPI, updateArticleAPI } from '../../utils/Api';
 import Title from '../Shared/Title';
@@ -34,6 +37,7 @@ const AddArticle = () => {
     try {
       const res = await updateArticleAPI(data);
       const articleData = res.data;
+      dispatch(updateArticles(articleData));
       if (res.status === 200) {
         navigate('/');
       }

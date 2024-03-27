@@ -13,7 +13,7 @@ const Search = () => {
   };
 
   return (
-    <form className='max-w-md mx-auto mt-6'>
+    <form className='max-w-md mx-auto'>
       <label
         htmlFor='default-search'
         className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'>
@@ -39,7 +39,7 @@ const Search = () => {
         <input
           type='search'
           id='default-search'
-          className='focus:outline-none block w-full p-4 my-2 ps-10 text-sm text-gray-900  border-gray-300 rounded-lg bg-gray-200 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+          className='focus:outline-none w-32 md:w-96 sm:w-32 block px-3 py-3 ps-10 text-sm text-gray-900  border-gray-300 rounded-lg bg-gray-200 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
           placeholder='Search for articles..'
           required
           onChange={handleSearch}

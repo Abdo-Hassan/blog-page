@@ -10,6 +10,7 @@ const ArticleCard = ({ article }: { article: IBlog }) => {
   const [open, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [showMore, setShowMore] = useState(false);
 
   const deleteArticle = async () => {
     try {
@@ -39,7 +40,7 @@ const ArticleCard = ({ article }: { article: IBlog }) => {
     <div className=' bg-white border border-gray-300 rounded-md overflow-hidden h-full'>
       <div className='p-4'>
         <div className='flex align-top justify-between'>
-          <h2 className='text-xl font-bold text-gray-800 mb-2 w-11/12'>
+          <h2 className='text-md font-bold text-gray-800 mb-2 w-11/12'>
             {article.title}
           </h2>
           <div className='flex'>
@@ -84,24 +85,39 @@ const ArticleCard = ({ article }: { article: IBlog }) => {
 
         {/* Author */}
         {article?.author && (
-          <p className='text-gray-600 mb-2 font-semibold'>
+          <p className='text-gray-600 mb-2 font-semibold text-sm'>
             Author: {article.author}
           </p>
         )}
 
         {/* Publication date */}
-        <p className='text-gray-600 mb-2 font-semibold'>
-          Publication Date: {new Date().toLocaleDateString()}
+        <p className='text-gray-600 mb-2 font-semibold text-sm'>
+          <span className='font-bold'>Publication Date: </span>
+          <span>{new Date().toLocaleDateString()}</span>
         </p>
 
         {/* article content */}
-        <p className='text-gray-800'>
-          {article.body.length > 20 ? (
-            <button className='text-blue-500'>Read more</button>
+        <>
+          {article.body.length >= 50 && !showMore ? (
+            <p className='text-gray-800 text-sm'>{article.body.slice(0, 50)}</p>
           ) : (
-            article.body
+            <p className='text-gray-800 text-sm'>{article.body}</p>
           )}
-        </p>
+
+          {showMore ? (
+            <button
+              className='text-blue-500 mt-2'
+              onClick={() => setShowMore(false)}>
+              Show Less
+            </button>
+          ) : (
+            <button
+              className='text-blue-500 mt-2'
+              onClick={() => setShowMore(true)}>
+              Show More
+            </button>
+          )}
+        </>
       </div>
 
       {/* Modal delete confirmation */}

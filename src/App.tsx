@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Header from './components/Shared/Header';
+import Navbar from './components/Shared/Navbar';
 import Home from './pages/Home';
 import AddArticle from './components/articles/AddArticle';
 import NotFound from './pages/NotFound';
@@ -9,7 +9,7 @@ function App() {
   return (
     <div>
       <Router>
-        <Header />
+        <Navbar />
         <Routes>
           {/* Home page */}
           <Route path='/' element={<Home />} />

@@ -44,11 +44,8 @@ const Home = () => {
 
   return (
     <div>
-      {/* search input */}
-      <Search />
-
       {/* Articles list cards */}
-      <div className='grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-4 px-6 py-3'>
+      <div className='grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-2 px-6 pt-10 pb-6'>
         {allArticles &&
           allArticles?.length > 0 &&
           allArticles?.map((article: IBlog) => (
